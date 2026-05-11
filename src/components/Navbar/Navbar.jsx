@@ -7,7 +7,7 @@ const Navbar = () => {
     const links = <>
         <li><NavLink>Services</NavLink></li>
         <li><NavLink>About Us</NavLink></li>
-        <li><NavLink>Coverage</NavLink></li>
+        <li><NavLink to={'/coverage'}>Coverage</NavLink></li>
     </>
     return (
         <div className='p-4 md:p-8'>
