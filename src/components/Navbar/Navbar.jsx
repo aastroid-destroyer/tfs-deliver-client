@@ -1,14 +1,27 @@
-import React from 'react'
+import React, { use } from 'react'
 import Logo from '../Logo/Logo'
-import { NavLink } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { IoArrowUpCircle } from 'react-icons/io5'
+import { AuthContext } from '../../context/AuthContext'
 
 const Navbar = () => {
+    const { user, signOutuser } = use(AuthContext)
     const links = <>
         <li><NavLink>Services</NavLink></li>
-        <li><NavLink>About Us</NavLink></li>
         <li><NavLink to={'/coverage'}>Coverage</NavLink></li>
+        <li><NavLink>About Us</NavLink></li>
+        <li><NavLink>Pricing</NavLink></li>
+        <li><NavLink to={'/be-a-rider'}>Be a Rider</NavLink></li>
     </>
+    const handleLogout = (e) => {
+        e.preventDefault()
+        signOutuser()
+            .then(res => console.log(res))
+            .then(err => console.log(err)
+            )
+
+
+    }
     return (
         <div className='p-4 md:p-8'>
             <div className="navbar p-4 bg-base-100 shadow-sm ounded-[10px] md:rounded-[15px]">
@@ -32,13 +45,15 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <div className='flex items-center justify-center gap-5'>
-                        <a className="btn px-7 py-5 rounded-2xl">Log in</a>
-                        <a className="btn bg-[#CAEB66] px-7 py-5 rounded-2xl">SIgn up</a>
+                {
+                    user ? <div className='navbar-end'><button onClick={handleLogout} className='btn px-7 py-5 rounded-2xl'>Log Out</button></div> : <div className="navbar-end">
+                        <div className='flex items-center justify-center gap-5'>
+                            <Link to={'/login'} className="btn px-7 py-5 rounded-2xl">Log in</Link>
+                            <Link to={'/register'} className="btn bg-[#CAEB66] px-7 py-5 rounded-2xl">SIgn up</Link>
+                        </div>
+                        <IoArrowUpCircle className='h-10 w-10 rotate-3' />
                     </div>
-                    <IoArrowUpCircle className='h-10 w-10 rotate-3' />
-                </div>
+                }
             </div>
         </div>
     )

@@ -1,10 +1,12 @@
 import React, { use } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 const Login = () => {
     const { loginInUser } = use(AuthContext)
+    const location = useLocation()
+    const naviagte = useNavigate()
     const {
         register,
         handleSubmit,
@@ -13,7 +15,10 @@ const Login = () => {
 
     const handleLogin = (data) => {
         loginInUser(data.email, data.password)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res)
+                naviagte(location?.state || '/')
+            })
             .catch(err => console.log(err))
 
 
